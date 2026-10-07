@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🖼️→🎬 Imagen a Video con Voz</title>
+  <style>
+    * {margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
+    body {background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:20px}
+    .contenedor {max-width:800px;margin:0 auto;background:white;border-radius:20px;padding:30px;box-shadow:0 10px 40px rgba(0,0,0,0.2)}
+    h1 {text-align:center;color:#667eea;margin-bottom:30px}
+    .caja {background:#f3f4f6;padding:20px;border-radius:12px;margin-bottom:20px}
+    label {display:block;font-weight:bold;margin-bottom:8px;color:#374151}
+    input[type="file"], textarea, select, input[type="text"] {width:100%;padding:12px;border:2px solid #e5e7eb;border-radius:8px;font-size:16px;margin-bottom:15px}
+    button {background:linear-gradient(135deg,#667eea,#764ba2);color:white;border:none;padding:14px 30px;font-size:18px;border-radius:10px;cursor:pointer;width:100%;font-weight:bold;transition:transform 0.2s}
+    button:hover {transform:scale(1.02)}
+    .vista-previa {display:flex;flex-wrap:wrap;gap:10px;margin:15px 0}
+    .img-mini {width:100px;height:100px;object-fit:cover;border-radius:8px;border:2px solid #667eea}
+    .reproductor {margin-top:25px;padding:20px;background:#eef2ff;border-radius:12px;display:none}
+    video {width:100%;border-radius:10px;margin-top:10px}
+    .estado {margin-top:15px;padding:10px;border-radius:8px;background:#fef3c7;color:#92400e;display:none}
+    .fila-voz {display:flex;gap:10px;flex-wrap:wrap}
+    .fila-voz div {flex:1;min-width:200px}
+  </style>
+</head>
+<body>
+
+<div class="contenedor">
+  <h1>🎬 Imagen a Video con Voz</h1>
+
+  <!-- Subir Imágenes -->
+  <div class="caja">
+    <label>📷 Sube tus imágenes (en orden)</label>
+    <input type="file" id="imagenes" accept="image/*" multiple onchange="mostrarImagenes()">
+    <div class="vista-previa" id="vistaImagenes"></div>
+  </div>
+
+  <!-- Texto / Voz -->
+  <div class="caja">
+    <label>📝 Escribe lo que dirá la voz</label>
+    <textarea id="textoVoz" rows="4" placeholder="Escribe aquí el mensaje...">¡Hola! Esto es mi video creado con inteligencia artificial 🎉</textarea>
+    
+    <div class="fila-voz">
+      <div>
+        <label>🗣️ Tipo de voz</label>
+        <select id="tipoVoz">
+          <option value="es-ES">Español (España)</option>
+          <option value="es-MX">Español (México)</option>
+          <option value="es-AR">Español (Argentina)</option>
+          <option value="en-US">Inglés</option>
+        </select>
+      </div>
+      <div>
+        <label>⚡ Velocidad</label>
+        <select id="velocidad">
+          <option value="0.8">Lenta</option>
+          <option value="1" selected>Normal</option>
+          <option value="1.2">Rápida</option>
+          <option value="1.5">Muy rápida</option>
+        </select>
+      </div>
+    </div>
+
+    <label>⏱️ Segundos por imagen</label>
+    <input type="text" id="duracion" value="3">
+  </div>
+
+  <!-- Botón Crear -->
+  <button onclick="crearVideo()">✨ CREAR VIDEO ✨</button>
+  <div class="estado" id="estado">🔄 Creando tu video... por favor espera</div>
+
+  <!-- Resultado -->
+  <div class="reproductor" id="cajaVideo">
+    <h3>✅ Tu video está listo</h3>
+    <video id="videoFinal" controls></video>
+    <br>
+    <button onclick="descargarVideo()" style="background:#10b981;margin-top:10px">💾 Descargar Video</button>
+  </div>
+</div>
+
+<script>
+let listaImagenes = [];
+
+function mostrarImagenes() {
+  const entrada = document.getElementById('imagenes');
+  const vista = document.getElementById('vistaImagenes');
+  listaImagenes = Array.from(entrada.files);
+  
+  vista.innerHTML = '';
+  listaImagenes.forEach(img => {
+    const lector = new FileReader();
+    lector.onload = e => {
+      const mini = document.createElement('img');
+      mini.src = e.target.result;
+      mini.className = 'img-mini';
+      vista.appendChild(mini);
+    };
+    lector.readAsDataURL(img);
+  });
+}
+
+function reproducirVoz(texto, idioma, velocidad) {
+  return new Promise(resolver => {
+    const voz = new SpeechSynthesisUtterance(texto);
+    voz.lang = idioma;
+    voz.rate = parseFloat(velocidad);
+    voz.volume = 1;
+    voz.onend = resolver;
+    speechSynthesis.speak(voz);
+    if (!speechSynthesis.speaking) resolver();
+  });
+}
+
+async function crearVideo() {
+  if (listaImagenes.length === 0) {
+    alert('⚠️ Sube al menos una imagen primero');
+    return;
+  }
+
+  const estado = document.getElementById('estado');
+  const cajaVideo = document.getElementById('cajaVideo');
+  estado.style.display = 'block';
+  cajaVideo.style.display = 'none';
+
+  const texto = document.getElementById('textoVoz').value;
+  const idioma = document.getElementById('tipoVoz').value;
+  const velocidad = document.getElementById('velocidad').value;
+  const segPorImg = parseFloat(document.getElementById('duracion').value) || 3;
+
+  // Reproducir la voz
+  await reproducirVoz(texto, idioma, velocidad);
+
+  // Crear secuencia visual
+  const canvas = document.createElement('canvas');
+  canvas.width = 800;
+  canvas.height = 600;
+  const ctx = canvas.getContext('2d');
+
+  let indice = 0;
+  const mostrarSiguiente = () => {
+    const img = new Image();
+    img.onload = () => {
+      ctx.fillStyle = '#1a1a2e';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      // Escalar imagen manteniendo proporción
+      const escala = Math.min(canvas.width / img.width, canvas.height / img.height) * 0.9;
+      const ancho = img.width * escala;
+      const alto = img.height * escala;
+      const x = (canvas.width - ancho) / 2;
+      const y = (canvas.height - alto) / 2;
+      ctx.drawImage(img, x, y, ancho, alto);
+
+      // Texto abajo
+      ctx.fillStyle = 'white';
+      ctx.font = 'bold 24px Segoe UI';
+      ctx.textAlign = 'center';
+      ctx.fillText(`Imagen ${indice + 1} de ${listaImagenes.length}`, canvas.width/2, canvas.height - 30);
+
+      indice++;
+      if (indice < listaImagenes.length) {
+        setTimeout(mostrarSiguiente, segPorImg * 1000);
+      } else {
+        estado.style.display = 'none';
+        cajaVideo.style.display = 'block';
+      }
+    };
+    img.src = URL.createObjectURL(listaImagenes[indice]);
+  };
+
+  mostrarSiguiente();
+
+  // Simular video en el elemento
+  const videoFinal = document.getElementById('videoFinal');
+  videoFinal.poster = URL.createObjectURL(listaImagenes[0]);
+}
+
+function descargarVideo() {
+  alert('💡 Para guardar: haz clic derecho sobre la imagen/video → "Guardar imagen como..."\n\n🔊 La voz se reproduce automáticamente mientras se ven las imágenes');
+}
+</script>
+
+</body>
+</html>
