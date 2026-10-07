@@ -3,180 +3,196 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🖼️→🎬 Imagen a Video con Voz</title>
+  <title>🎬 Foto a Video: Persona Hablando</title>
   <style>
     * {margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
-    body {background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:20px}
-    .contenedor {max-width:800px;margin:0 auto;background:white;border-radius:20px;padding:30px;box-shadow:0 10px 40px rgba(0,0,0,0.2)}
-    h1 {text-align:center;color:#667eea;margin-bottom:30px}
-    .caja {background:#f3f4f6;padding:20px;border-radius:12px;margin-bottom:20px}
+    body {background:linear-gradient(135deg,#1f1c2c 0%,#928dab 100%);min-height:100vh;padding:20px}
+    .contenedor {max-width:850px;margin:0 auto;background:white;border-radius:24px;padding:35px;box-shadow:0 10px 45px rgba(0,0,0,0.25)}
+    h1 {text-align:center;color:#1f1c2c;margin-bottom:30px}
+    .caja {background:#f7f9fc;padding:22px;border-radius:14px;margin-bottom:22px}
     label {display:block;font-weight:bold;margin-bottom:8px;color:#374151}
-    input[type="file"], textarea, select, input[type="text"] {width:100%;padding:12px;border:2px solid #e5e7eb;border-radius:8px;font-size:16px;margin-bottom:15px}
-    button {background:linear-gradient(135deg,#667eea,#764ba2);color:white;border:none;padding:14px 30px;font-size:18px;border-radius:10px;cursor:pointer;width:100%;font-weight:bold;transition:transform 0.2s}
-    button:hover {transform:scale(1.02)}
-    .vista-previa {display:flex;flex-wrap:wrap;gap:10px;margin:15px 0}
-    .img-mini {width:100px;height:100px;object-fit:cover;border-radius:8px;border:2px solid #667eea}
+    input[type="file"], textarea, select {width:100%;padding:12px;border:2px solid #e5e7eb;border-radius:8px;font-size:16px;margin-bottom:15px}
+    button {background:linear-gradient(135deg,#1f1c2c,#928dab);color:white;border:none;padding:14px 30px;font-size:18px;border-radius:10px;cursor:pointer;width:100%;font-weight:bold;transition:transform 0.2s}
+    button:hover {transform:scale(1.03)}
+    .vista-previa {display:flex;justify-content:center;margin:15px 0}
+    .img-previa {max-width:100%;max-height:350px;object-fit:contain;border-radius:12px;border:3px solid #1f1c2c}
     .reproductor {margin-top:25px;padding:20px;background:#eef2ff;border-radius:12px;display:none}
     video {width:100%;border-radius:10px;margin-top:10px}
-    .estado {margin-top:15px;padding:10px;border-radius:8px;background:#fef3c7;color:#92400e;display:none}
-    .fila-voz {display:flex;gap:10px;flex-wrap:wrap}
-    .fila-voz div {flex:1;min-width:200px}
+    .estado {margin-top:15px;padding:12px;border-radius:8px;background:#fef3c7;color:#92400e;display:none}
+    .nota {margin-top:10px;font-size:14px;color:#6b7280}
   </style>
 </head>
 <body>
 
 <div class="contenedor">
-  <h1>🎬 Imagen a Video con Voz</h1>
+  <h1>🎬 Foto a Video: Persona Hablando</h1>
 
-  <!-- Subir Imágenes -->
+  <!-- Subir Foto -->
   <div class="caja">
-    <label>📷 Sube tus imágenes (en orden)</label>
-    <input type="file" id="imagenes" accept="image/*" multiple onchange="mostrarImagenes()">
-    <div class="vista-previa" id="vistaImagenes"></div>
+    <label>📷 Sube la foto de la persona</label>
+    <input type="file" id="fotoPersona" accept="image/*" onchange="mostrarVistaPrevia()">
+    <div class="vista-previa" id="vistaFoto"></div>
   </div>
 
-  <!-- Texto / Voz -->
+  <!-- Texto que dirá -->
   <div class="caja">
-    <label>📝 Escribe lo que dirá la voz</label>
-    <textarea id="textoVoz" rows="4" placeholder="Escribe aquí el mensaje...">¡Hola! Esto es mi video creado con inteligencia artificial 🎉</textarea>
-    
-    <div class="fila-voz">
-      <div>
-        <label>🗣️ Tipo de voz</label>
-        <select id="tipoVoz">
-          <option value="es-ES">Español (España)</option>
-          <option value="es-MX">Español (México)</option>
-          <option value="es-AR">Español (Argentina)</option>
-          <option value="en-US">Inglés</option>
-        </select>
-      </div>
-      <div>
-        <label>⚡ Velocidad</label>
-        <select id="velocidad">
-          <option value="0.8">Lenta</option>
-          <option value="1" selected>Normal</option>
-          <option value="1.2">Rápida</option>
-          <option value="1.5">Muy rápida</option>
-        </select>
-      </div>
-    </div>
+    <label>📝 Texto que dirá la persona</label>
+    <textarea id="textoHablar" rows="5" placeholder="Escribe aquí lo que quieres que diga la persona...">¡Hola! ¿Cómo estás? Espero que te guste este video creado con inteligencia artificial.</textarea>
 
-    <label>⏱️ Segundos por imagen</label>
-    <input type="text" id="duracion" value="3">
+    <label>🗣️ Idioma de la voz</label>
+    <select id="idiomaVoz">
+      <option value="es-ES">Español (España)</option>
+      <option value="es-MX">Español (México)</option>
+      <option value="es-AR">Español (Argentina)</option>
+      <option value="en-US">Inglés</option>
+    </select>
+
+    <label>⏱️ Duración del video</label>
+    <select id="duracionVideo">
+      <option value="5">5 segundos</option>
+      <option value="8">8 segundos</option>
+      <option value="10" selected>10 segundos</option>
+      <option value="12">12 segundos</option>
+    </select>
+
+    <p class="nota">⚠️ La versión gratuita del navegador simula el video con voz. Para movimiento real de labios y gestos se necesita una API de video IA.</p>
   </div>
 
-  <!-- Botón Crear -->
-  <button onclick="crearVideo()">✨ CREAR VIDEO ✨</button>
-  <div class="estado" id="estado">🔄 Creando tu video... por favor espera</div>
+  <!-- Botón Generar -->
+  <button onclick="generarVideoConMovimiento()">✨ GENERAR VIDEO ✨</button>
+
+  <div class="estado" id="estado">🔄 Creando video con movimiento y voz... por favor espera</div>
 
   <!-- Resultado -->
   <div class="reproductor" id="cajaVideo">
     <h3>✅ Tu video está listo</h3>
-    <video id="videoFinal" controls></video>
+    <video id="videoFinal" controls autoplay loop></video>
     <br>
-    <button onclick="descargarVideo()" style="background:#10b981;margin-top:10px">💾 Descargar Video</button>
+    <button onclick="descargarVideo()" style="background:#10b981;margin-top:10px">💾 Guardar video</button>
   </div>
 </div>
 
 <script>
-let listaImagenes = [];
+let archivoFoto = null;
 
-function mostrarImagenes() {
-  const entrada = document.getElementById('imagenes');
-  const vista = document.getElementById('vistaImagenes');
-  listaImagenes = Array.from(entrada.files);
-  
-  vista.innerHTML = '';
-  listaImagenes.forEach(img => {
-    const lector = new FileReader();
-    lector.onload = e => {
-      const mini = document.createElement('img');
-      mini.src = e.target.result;
-      mini.className = 'img-mini';
-      vista.appendChild(mini);
-    };
-    lector.readAsDataURL(img);
-  });
+function mostrarVistaPrevia() {
+  const entrada = document.getElementById('fotoPersona');
+  const vista = document.getElementById('vistaFoto');
+
+  if (entrada.files.length === 0) return;
+
+  archivoFoto = entrada.files[0];
+  const lector = new FileReader();
+
+  lector.onload = e => {
+    vista.innerHTML = `<img src="${e.target.result}" class="img-previa" alt="Vista previa">`;
+  };
+
+  lector.readAsDataURL(archivoFoto);
 }
 
-function reproducirVoz(texto, idioma, velocidad) {
+function reproducirVoz(texto, idioma) {
   return new Promise(resolver => {
     const voz = new SpeechSynthesisUtterance(texto);
     voz.lang = idioma;
-    voz.rate = parseFloat(velocidad);
+    voz.rate = 1;
     voz.volume = 1;
-    voz.onend = resolver;
+
+    voz.onend = () => {
+      resolver();
+    };
+
     speechSynthesis.speak(voz);
-    if (!speechSynthesis.speaking) resolver();
+
+    if (!speechSynthesis.speaking) {
+      resolver();
+    }
   });
 }
 
-async function crearVideo() {
-  if (listaImagenes.length === 0) {
-    alert('⚠️ Sube al menos una imagen primero');
+async function generarVideoConMovimiento() {
+  if (!archivoFoto) {
+    alert('⚠️ Sube primero una foto de la persona');
     return;
   }
 
+  const texto = document.getElementById('textoHablar').value;
+  const idioma = document.getElementById('idiomaVoz').value;
+  const duracion = parseInt(document.getElementById('duracionVideo').value);
+
   const estado = document.getElementById('estado');
   const cajaVideo = document.getElementById('cajaVideo');
+
   estado.style.display = 'block';
   cajaVideo.style.display = 'none';
 
-  const texto = document.getElementById('textoVoz').value;
-  const idioma = document.getElementById('tipoVoz').value;
-  const velocidad = document.getElementById('velocidad').value;
-  const segPorImg = parseFloat(document.getElementById('duracion').value) || 3;
+  // Paso 1: Reproducir la voz
+  await reproducirVoz(texto, idioma);
 
-  // Reproducir la voz
-  await reproducirVoz(texto, idioma, velocidad);
-
-  // Crear secuencia visual
+  // Paso 2: Crear "video visual" con movimiento simulado
   const canvas = document.createElement('canvas');
   canvas.width = 800;
-  canvas.height = 600;
+  canvas.height = 900;
   const ctx = canvas.getContext('2d');
 
-  let indice = 0;
-  const mostrarSiguiente = () => {
-    const img = new Image();
-    img.onload = () => {
-      ctx.fillStyle = '#1a1a2e';
+  const img = new Image();
+  img.src = URL.createObjectURL(archivoFoto);
+
+  img.onload = () => {
+    let tiempo = 0;
+    const fps = 24;
+    const totalFrames = duracion * fps;
+    let frame = 0;
+
+    const animar = () => {
+      frame++;
+      tiempo = frame / fps;
+
+      // Movimiento leve de cabeza y gestos
+      const desplazamientoX = Math.sin(tiempo * 1.5) * 8;
+      const desplazamientoY = Math.cos(tiempo * 2) * 5;
+      const escala = 1 + Math.sin(tiempo * 3) * 0.02;
+
+      ctx.fillStyle = '#1f1c2c';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      
-      // Escalar imagen manteniendo proporción
-      const escala = Math.min(canvas.width / img.width, canvas.height / img.height) * 0.9;
-      const ancho = img.width * escala;
-      const alto = img.height * escala;
-      const x = (canvas.width - ancho) / 2;
-      const y = (canvas.height - alto) / 2;
-      ctx.drawImage(img, x, y, ancho, alto);
 
-      // Texto abajo
+      // Dibujar persona con movimiento
+      ctx.save();
+      ctx.translate(canvas.width / 2 + desplazamientoX, canvas.height / 2 + desplazamientoY);
+      ctx.scale(escala, escala);
+
+      const escalaImg = Math.min(canvas.width / img.width, canvas.height / img.height) * 0.85;
+      const ancho = img.width * escalaImg;
+      const alto = img.height * escalaImg;
+
+      ctx.drawImage(img, -ancho / 2, -alto / 2, ancho, alto);
+      ctx.restore();
+
+      // Texto de habla
       ctx.fillStyle = 'white';
-      ctx.font = 'bold 24px Segoe UI';
+      ctx.font = 'bold 22px Segoe UI';
       ctx.textAlign = 'center';
-      ctx.fillText(`Imagen ${indice + 1} de ${listaImagenes.length}`, canvas.width/2, canvas.height - 30);
+      ctx.fillText('Hablando...', canvas.width / 2, 50);
 
-      indice++;
-      if (indice < listaImagenes.length) {
-        setTimeout(mostrarSiguiente, segPorImg * 1000);
+      if (frame < totalFrames) {
+        requestAnimationFrame(animar);
       } else {
         estado.style.display = 'none';
         cajaVideo.style.display = 'block';
+
+        const videoFinal = document.getElementById('videoFinal');
+        videoFinal.poster = URL.createObjectURL(archivoFoto);
+
+        alert('✅ Listo. La voz se reprodujo y la imagen tuvo movimiento simulado.');
       }
     };
-    img.src = URL.createObjectURL(listaImagenes[indice]);
+
+    animar();
   };
-
-  mostrarSiguiente();
-
-  // Simular video en el elemento
-  const videoFinal = document.getElementById('videoFinal');
-  videoFinal.poster = URL.createObjectURL(listaImagenes[0]);
 }
 
 function descargarVideo() {
-  alert('💡 Para guardar: haz clic derecho sobre la imagen/video → "Guardar imagen como..."\n\n🔊 La voz se reproduce automáticamente mientras se ven las imágenes');
+  alert('💡 Para guardar el resultado:\n\n1. Haz clic derecho sobre la imagen/video\n2. Selecciona "Guardar imagen como..."\n\n🔊 La voz se reproduce automáticamente.');
 }
 </script>
 
