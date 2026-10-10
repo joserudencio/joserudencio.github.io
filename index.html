@@ -1,204 +1,589 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🎬 Foto a Video: Persona Hablando</title>
-  <script async 
-   src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3147134403132666"
-     crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 Tres en Raya — ¡Gana $30!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .advertencia {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            color: #856404;
+            padding: 12px 18px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            max-width: 420px;
+            line-height: 1.5;
+        }
+        .advertencia-seguridad {
+            background: #f8d7da;
+            border: 2px solid #dc3545;
+            color: #721c24;
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.85rem;
+            max-width: 420px;
+            line-height: 1.5;
+        }
+        h1 {
+            color: white;
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+        .meta {
+            background: linear-gradient(90deg, #ffd700, #ffed4e);
+            color: #5d3a00;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+        }
+        .progreso-estrellas {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .estrella {
+            font-size: 2rem;
+            opacity: 0.2;
+            transition: 0.3s;
+        }
+        .estrella.ganada {
+            opacity: 1;
+            animation: brillar 0.5s ease;
+        }
+        @keyframes brillar {
+            0% { transform: scale(1.5); }
+            100% { transform: scale(1); }
+        }
+        .tablero {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 8px;
+            background: rgba(255,255,255,0.08);
+            padding: 12px;
+            border-radius: 12px;
+        }
+        .celda {
+            background: #fff;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.15s;
+            user-select: none;
+        }
+        .celda:hover { background: #f0f0f0; }
+        .jugador { color: #e74c3c; }
+        .maquina { color: #f39c12; }
 
-  <style>
-    * {margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
-    body {background:linear-gradient(135deg,#1f1c2c 0%,#928dab 100%);min-height:100vh;padding:20px}
-    .contenedor {max-width:850px;margin:0 auto;background:white;border-radius:24px;padding:35px;box-shadow:0 10px 45px rgba(0,0,0,0.25)}
-    h1 {text-align:center;color:#1f1c2c;margin-bottom:30px}
-    .caja {background:#f7f9fc;padding:22px;border-radius:14px;margin-bottom:22px}
-    label {display:block;font-weight:bold;margin-bottom:8px;color:#374151}
-    input[type="file"], textarea, select {width:100%;padding:12px;border:2px solid #e5e7eb;border-radius:8px;font-size:16px;margin-bottom:15px}
-    button {background:linear-gradient(135deg,#1f1c2c,#928dab);color:white;border:none;padding:14px 30px;font-size:18px;border-radius:10px;cursor:pointer;width:100%;font-weight:bold;transition:transform 0.2s}
-    button:hover {transform:scale(1.03)}
-    .vista-previa {display:flex;justify-content:center;margin:15px 0}
-    .img-previa {max-width:100%;max-height:350px;object-fit:contain;border-radius:12px;border:3px solid #1f1c2c}
-    .reproductor {margin-top:25px;padding:20px;background:#eef2ff;border-radius:12px;display:none}
-    video {width:100%;border-radius:10px;margin-top:10px}
-    .estado {margin-top:15px;padding:12px;border-radius:8px;background:#fef3c7;color:#92400e;display:none}
-    .nota {margin-top:10px;font-size:14px;color:#6b7280}
-  </style>
+        .estado {
+            margin-top: 20px;
+            font-size: 1.1rem;
+            color: white;
+            font-weight: bold;
+            height: 35px;
+            text-align: center;
+        }
+        .mensaje {
+            margin-top: 15px;
+            padding: 18px 28px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            display: none;
+            text-align: center;
+            max-width: 420px;
+        }
+        .victoria {
+            background: rgba(39, 174, 96, 0.2);
+            color: #2ecc71;
+            border: 1px solid #27ae60;
+        }
+        .perdiste {
+            background: rgba(231,76,60,0.2);
+            color: #ff6b6b;
+            border: 1px solid #e74c3c;
+        }
+
+        .puntuacion {
+            margin-top: 20px;
+            display: flex;
+            gap: 30px;
+            color: white;
+            font-size: 1rem;
+        }
+        .boton {
+            margin-top: 15px;
+            padding: 12px 30px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+            width: 100%;
+        }
+        .boton:hover { transform: translateY(-2px); }
+        .boton-verde { background: #27ae60; color: white; }
+        .boton-verde:hover { background: #219653; }
+        .boton-azul { background: #3498db; color: white; }
+        .boton-azul:hover { background: #2980b9; }
+        .boton-rojo { background: #e74c3c; color: white; }
+        .boton-rojo:hover { background: #c0392b; }
+        .boton-oro {
+            background: linear-gradient(90deg, #f39c12, #e67e22);
+            color: white;
+            margin-top: 10px;
+        }
+        .boton-oro:hover { background: linear-gradient(90deg, #e67e22, #d35400); }
+
+        /* === SECCIÓN DE RETIRO === */
+        .seccion-retiro {
+            display: none;
+            background: white;
+            border-radius: 16px;
+            padding: 30px 25px;
+            margin-top: 25px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+        }
+        .seccion-retiro h2 {
+            color: #27ae60;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+        .seccion-retiro h3 {
+            color: #333;
+            font-size: 1rem;
+            margin: 15px 0 8px 0;
+        }
+        .seccion-retiro p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        /* BARRA DE PROGRESO */
+        .contenedor-barra {
+            margin: 20px 0;
+        }
+        .etiqueta-progreso {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+            font-size: 0.9rem;
+        }
+        .barra-fondo {
+            background: #e9ecef;
+            height: 24px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .barra-llena {
+            background: linear-gradient(90deg, #25D366, #128C7E);
+            height: 100%;
+            width: 0%;
+            border-radius: 12px;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        /* SUBIDA DE CAPTURA */
+        .subida-captura {
+            border: 2px dashed #25D366;
+            border-radius: 12px;
+            padding: 25px 15px;
+            text-align: center;
+            margin: 20px 0;
+            background: #f8fff8;
+            transition: 0.3s;
+        }
+        .subida-captura:hover {
+            background: #e8ffe8;
+        }
+        .subida-captura label {
+            display: block;
+            cursor: pointer;
+            color: #25D366;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+        .subida-captura input[type="file"] {
+            display: none;
+        }
+        .preview-captura {
+            margin-top: 15px;
+            width: 100%;
+            border-radius: 8px;
+            display: none;
+            border: 1px solid #ddd;
+            max-height: 200px;
+            object-fit: contain;
+        }
+
+        .caja-enlace {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 0.85rem;
+            color: #333;
+            word-break: break-all;
+            margin-bottom: 10px;
+        }
+
+        .form-grupo {
+            margin-bottom: 15px;
+        }
+        .form-grupo label {
+            display: block;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        .form-grupo input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .paso {
+            border-left: 3px solid #27ae60;
+            padding-left: 15px;
+            margin-bottom: 25px;
+        }
+        .paso h4 {
+            color: #27ae60;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+        }
+
+        .progreso-pasos {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+        .paso-indicador {
+            text-align: center;
+            opacity: 0.3;
+            transition: 0.3s;
+        }
+        .paso-indicador.completo {
+            opacity: 1;
+        }
+        .paso-indicador span {
+            display: block;
+            font-size: 0.75rem;
+            color: #666;
+            margin-top: 3px;
+        }
+        .circulo {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #ddd;
+            color: #999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin: 0 auto;
+        }
+        .paso-indicador.completo .circulo {
+            background: #27ae60;
+            color: white;
+        }
+
+        .exito-registro {
+            display: none;
+            background: #d4edda;
+            border: 1px solid #28a745;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 15px;
+        }
+        .completo-mensaje {
+            background: #e8f5e9;
+            border: 2px solid #27ae60;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 20px;
+            display: none;
+            animation: aparecer 0.5s ease;
+        }
+        @keyframes aparecer {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        iframe { display: none; }
+    </style>
 </head>
 <body>
 
-<div class="contenedor">
-  <h1>🎬 Foto a Video: Persona Hablando</h1>
+    <!-- ⚠️ ADVERTENCIAS -->
+    <div class="advertencia">
+        ⚠️ No se pueden repetir las mismas jugadas. Si se detectan jugadas repetidas, no será válido el premio.
+    </div>
+    <div class="advertencia-seguridad">
+        🔒 Si se detectan irregularidades, no se hará efectivo el pago en las próximas horas.
+    </div>
 
-  <!-- Subir Foto -->
-  <div class="caja">
-    <label>📷 Sube la foto de la persona</label>
-    <input type="file" id="fotoPersona" accept="image/*" onchange="mostrarVistaPrevia()">
-    <div class="vista-previa" id="vistaFoto"></div>
-  </div>
+    <h1>🎮 TRES EN RAYA</h1>
 
-  <!-- Texto que dirá -->
-  <div class="caja">
-    <label>📝 Texto que dirá la persona</label>
-    <textarea id="textoHablar" rows="5" placeholder="Escribe aquí lo que quieres que diga la persona...">¡Hola! ¿Cómo estás? Espero que te guste este video creado con inteligencia artificial.</textarea>
+    <div class="meta">🏆 ¡GANA 3 VECES = $30.00 DÓLARES! 🏆</div>
 
-    <label>🗣️ Idioma de la voz</label>
-    <select id="idiomaVoz">
-      <option value="es-ES">Español (España)</option>
-      <option value="es-MX">Español (México)</option>
-      <option value="es-AR">Español (Argentina)</option>
-      <option value="en-US">Inglés</option>
-    </select>
+    <div class="progreso-estrellas">
+        <span class="estrella" id="e1">⭐</span>
+        <span class="estrella" id="e2">⭐</span>
+        <span class="estrella" id="e3">⭐</span>
+    </div>
 
-    <label>⏱️ Duración del video</label>
-    <select id="duracionVideo">
-      <option value="5">5 segundos</option>
-      <option value="8">8 segundos</option>
-      <option value="10" selected>10 segundos</option>
-      <option value="12">12 segundos</option>
-    </select>
+    <div class="tablero" id="tablero">
+        <div class="celda" data-i="0"></div>
+        <div class="celda" data-i="1"></div>
+        <div class="celda" data-i="2"></div>
+        <div class="celda" data-i="3"></div>
+        <div class="celda" data-i="4"></div>
+        <div class="celda" data-i="5"></div>
+        <div class="celda" data-i="6"></div>
+        <div class="celda" data-i="7"></div>
+        <div class="celda" data-i="8"></div>
+    </div>
 
-    <p class="nota">⚠️ La versión gratuita del navegador simula el video con voz. Para movimiento real de labios y gestos se necesita una API de video IA.</p>
-  </div>
+    <div class="estado" id="estado">Tu turno ❌ — ¡Intenta ganar!</div>
 
-  <!-- Botón Generar -->
-  <button onclick="generarVideoConMovimiento()">✨ GENERAR VIDEO ✨</button>
+    <div class="mensaje victoria" id="msgVictoria">🎉 ¡GANASTE esta partida! Sigue jugando...</div>
+    <div class="mensaje perdiste" id="msgPerdiste">🤖 La máquina te venció. ¡Inténtalo otra vez!</div>
 
-  <div class="estado" id="estado">🔄 Creando video con movimiento y voz... por favor espera</div>
+    <div class="puntuacion">
+        <div>Tus victorias: <span id="vJugador">0</span>/3</div>
+        <div>Máquina: <span id="vMaquina">0</span></div>
+    </div>
 
-  <!-- Resultado -->
-  <div class="reproductor" id="cajaVideo">
-    <h3>✅ Tu video está listo</h3>
-    <video id="videoFinal" controls autoplay loop></video>
-    <br>
-    <button onclick="descargarVideo()" style="background:#10b981;margin-top:10px">💾 Guardar video</button>
-  </div>
-</div>
+    <button class="boton boton-azul" onclick="reiniciarPartida()">🔄 Nueva Partida</button>
+    <button class="boton boton-rojo" onclick="reiniciarTodo()" id="btnReiniciarTodo" style="display:none;">🔄 Empezar desde Cero</button>
 
-<script>
-let archivoFoto = null;
+    <!-- === SECCIÓN: RETIRAR PREMIO === -->
+    <div class="seccion-retiro" id="seccionRetiro">
+        <h2>🎉 ¡FELICIDADES! ¡GANASTE $30.00!</h2>
 
-function mostrarVistaPrevia() {
-  const entrada = document.getElementById('fotoPersona');
-  const vista = document.getElementById('vistaFoto');
+        <div class="progreso-pasos">
+            <div class="paso-indicador" id="paso1-indicador">
+                <div class="circulo">1</div>
+                <span>Compartir</span>
+            </div>
+            <div class="paso-indicador" id="paso2-indicador">
+                <div class="circulo">2</div>
+                <span>Registrarse</span>
+            </div>
+            <div class="paso-indicador" id="paso3-indicador">
+                <div class="circulo">3</div>
+                <span>Retirar</span>
+            </div>
+        </div>
 
-  if (entrada.files.length === 0) return;
+        <!-- PASO 1: COMPARTIR Y SUBIR CAPTURA -->
+        <div class="paso" id="paso1">
+            <h4>PASO 1 / 3</h4>
+            <h3>📲 Comparte con 5 personas por WhatsApp</h3>
+            <p>Sube <strong>una sola captura</strong> donde se vean los 5 contactos con los que compartiste el enlace:</p>
 
-  archivoFoto = entrada.files[0];
-  const lector = new FileReader();
+            <div class="contenedor-barra">
+                <div class="etiqueta-progreso">
+                    <span>Compartidos requeridos</span>
+                    <span id="contadorCompartidos">0 / 5</span>
+                </div>
+                <div class="barra-fondo">
+                    <div class="barra-llena" id="barraCompartidos">
+                        <span id="porcentajeTexto">0%</span>
+                    </div>
+                </div>
+            </div>
 
-  lector.onload = e => {
-    vista.innerHTML = `<img src="${e.target.result}" class="img-previa" alt="Vista previa">`;
-  };
+            <div class="caja-enlace" id="enlaceCompartir">
+                https://joserudencio.github.io
+            </div>
+            <button class="boton boton-verde" onclick="compartirWhatsApp()">📲 Compartir por WhatsApp</button>
+            <p style="font-size: 0.8rem; color: #888; margin-top: 8px;" id="mensajeCopiado"></p>
 
-  lector.readAsDataURL(archivoFoto);
-}
+            <div class="subida-captura">
+                <label for="capturaWhatsApp">
+                    📷 Haz clic para subir la captura de los 5 compartidos
+                </label>
+                <input type="file" id="capturaWhatsApp" accept="image/*" onchange="subirCaptura(event)">
+                <img id="previewCaptura" class="preview-captura" alt="Vista previa de la captura">
+            </div>
 
-function reproducirVoz(texto, idioma) {
-  return new Promise(resolver => {
-    const voz = new SpeechSynthesisUtterance(texto);
-    voz.lang = idioma;
-    voz.rate = 1;
-    voz.volume = 1;
+            <div class="completo-mensaje" id="completoPaso1">
+                ✅ ¡Excelente! Captura cargada con éxito<br>
+                Ahora completa tu registro para recibir tus $30.00 💵
+                <button class="boton boton-verde" style="margin-top: 12px;" onclick="irPaso2()">➡️ Continuar al Registro</button>
+            </div>
+        </div>
 
-    voz.onend = () => {
-      resolver();
-    };
+        <!-- PASO 2: REGISTRO CON FORMSPREE -->
+        <div class="paso" id="paso2" style="display: none;">
+            <h4>PASO 2 / 3</h4>
+            <h3>📝 Completa tu registro</h3>
+            <p>Ingresa tus datos para crear tu cuenta y recibir tu premio de $30.00:</p>
 
-    speechSynthesis.speak(voz);
+            <iframe name="formDestino" style="display:none;"></iframe>
+            
+            <form id="formularioRegistro" action="https://formspree.io/f/mvkgpv1k" method="POST" target="formDestino">
+                <div class="form-grupo">
+                    <label for="nombre">Nombre Completo:</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Tu nombre completo" required>
+                </div>
+                <div class="form-grupo">
+                    <label for="correo">Correo Electrónico:</label>
+                    <input type="email" id="correo" name="email" placeholder="tu@email.com" required>
+                </div>
+                <div class="form-grupo">
+                    <label for="celular">Número de Celular:</label>
+                    <input type="tel" id="celular" name="celular" placeholder="+593 XXX XXX XXX" required>
+                </div>
+                <div class="form-grupo">
+                    <label for="metodo">Método de Pago:</label>
+                    <input type="text" id="metodo" name="metodo" placeholder="PayPal / Banco / Binance / etc." required>
+                </div>
+                <div class="form-grupo">
+                    <label for="contrasena">Contraseña:</label>
+                    <input type="password" id="contrasena" name="contrasena" placeholder="Crea una contraseña" required>
+                </div>
+                <div class="form-grupo">
+                    <label for="confirmar-contrasena">Confirmar Contraseña:</label>
+                    <input type="password" id="confirmar-contrasena" placeholder="Vuelve a escribir tu contraseña" required>
+                </div>
 
-    if (!speechSynthesis.speaking) {
-      resolver();
-    }
-  });
-}
+                <button type="submit" class="boton boton-verde" onclick="return validarContrasena()">📤 Crear Cuenta</button>
+            </form>
 
-async function generarVideoConMovimiento() {
-  if (!archivoFoto) {
-    alert('⚠️ Sube primero una foto de la persona');
-    return;
-  }
+            <div class="exito-registro" id="exitoRegistro">
+                ✅ ¡Registro enviado con éxito!<br>
+                Redirigiendo... ⏳
+            </div>
+        </div>
 
-  const texto = document.getElementById('textoHablar').value;
-  const idioma = document.getElementById('idiomaVoz').value;
-  const duracion = parseInt(document.getElementById('duracionVideo').value);
+        <!-- PASO 3: CONFIRMACIÓN FINAL -->
+        <div class="paso" id="paso3" style="display: none;">
+            <h4>PASO 3 / 3</h4>
+            <h3>💰 ¡Todo listo!</h3>
+            <p>✅ Tu solicitud de retiro de <strong>$30.00 USD</strong> ha sido registrada exitosamente.</p>
+            <p style="color: #666; font-size: 0.85rem;">El pago se procesará en un plazo de 24 a 48 horas hábiles. Te enviaremos una confirmación a tu correo electrónico.</p>
+            <button class="boton boton-oro" onclick="alert('¡Gracias por participar! Revisa tu correo pronto 💌')">🎉 ¡Entendido!</button>
+        </div>
+    </div>
 
-  const estado = document.getElementById('estado');
-  const cajaVideo = document.getElementById('cajaVideo');
+    <script>
+        let tablero = ['','','','','','','','',''];
+        let activo = true;
+        let victoriasJugador = 0;
+        let victoriasMaquina = 0;
+        const victoriasMeta = 3;
+        const ganadoras = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
 
-  estado.style.display = 'block';
-  cajaVideo.style.display = 'none';
+        const ENLACE = "https://josetapias.github.io/gana-30dolares/";
+        const MENSAJE_WHATSAPP = "¡Hola! Gana treinta dólares con este sencillo juego de tres en raya. Únete y prueba suerte aquí: " + ENLACE;
 
-  // Paso 1: Reproducir la voz
-  await reproducirVoz(texto, idioma);
+        const celdas = document.querySelectorAll('.celda');
+        const estado = document.getElementById('estado');
+        const msgVictoria = document.getElementById('msgVictoria');
+        const msgPerdiste = document.getElementById('msgPerdiste');
+        const seccionRetiro = document.getElementById('seccionRetiro');
+        const btnReiniciarTodo = document.getElementById('btnReiniciarTodo');
 
-  // Paso 2: Crear "video visual" con movimiento simulado
-  const canvas = document.createElement('canvas');
-  canvas.width = 800;
-  canvas.height = 900;
-  const ctx = canvas.getContext('2d');
+        celdas.forEach(c => c.addEventListener('click', clicJugador));
 
-  const img = new Image();
-  img.src = URL.createObjectURL(archivoFoto);
+        function clicJugador(e) {
+            const i = parseInt(e.target.dataset.i);
+            if (tablero[i] !== '' || !activo) return;
 
-  img.onload = () => {
-    let tiempo = 0;
-    const fps = 24;
-    const totalFrames = duracion * fps;
-    let frame = 0;
+            ocultarMensajes();
+            tablero[i] = 'X';
+            e.target.textContent = '❌';
+            e.target.classList.add('jugador');
 
-    const animar = () => {
-      frame++;
-      tiempo = frame / fps;
+            if (hayGanador('X')) {
+                victoriaDelJugador();
+                return;
+            }
 
-      // Movimiento leve de cabeza y gestos
-      const desplazamientoX = Math.sin(tiempo * 1.5) * 8;
-      const desplazamientoY = Math.cos(tiempo * 2) * 5;
-      const escala = 1 + Math.sin(tiempo * 3) * 0.02;
+            if (!tablero.includes('')) {
+                estado.textContent = '🤝 Empate — intenta otra vez';
+                activo = false;
+                setTimeout(reiniciarPartida, 1500);
+                return;
+            }
 
-      ctx.fillStyle = '#1f1c2c';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+            estado.textContent = '🤖 Pensando...';
+            setTimeout(clicMaquina, 500);
+        }
 
-      // Dibujar persona con movimiento
-      ctx.save();
-      ctx.translate(canvas.width / 2 + desplazamientoX, canvas.height / 2 + desplazamientoY);
-      ctx.scale(escala, escala);
+        function clicMaquina() {
+            const i = mejorMovimiento();
+            tablero[i] = 'O';
+            celdas[i].textContent = '⭕';
+            celdas[i].classList.add('maquina');
 
-      const escalaImg = Math.min(canvas.width / img.width, canvas.height / img.height) * 0.85;
-      const ancho = img.width * escalaImg;
-      const alto = img.height * escalaImg;
+            if (hayGanador('O')) {
+                victoriasMaquina++;
+                document.getElementById('vMaquina').textContent = victoriasMaquina;
+                estado.textContent = '🤖 ¡La máquina gana esta partida!';
+                msgPerdiste.style.display = 'block';
+                activo = false;
+                return;
+            }
 
-      ctx.drawImage(img, -ancho / 2, -alto / 2, ancho, alto);
-      ctx.restore();
+            if (!tablero.includes('')) {
+                estado.textContent = '🤝 Empate';
+                activo = false;
+                return;
+            }
 
-      // Texto de habla
-      ctx.fillStyle = 'white';
-      ctx.font = 'bold 22px Segoe UI';
-      ctx.textAlign = 'center';
-      ctx.fillText('Hablando...', canvas.width / 2, 50);
-
-      if (frame < totalFrames) {
-        requestAnimationFrame(animar);
-      } else {
-        estado.style.display = 'none';
-        cajaVideo.style.display = 'block';
-
-        const videoFinal = document.getElementById('videoFinal');
-        videoFinal.poster = URL.createObjectURL(archivoFoto);
-
-        alert('✅ Listo. La voz se reprodujo y la imagen tuvo movimiento simulado.');
-      }
-    };
-
-    animar();
-  };
-}
-
-function descargarVideo() {
-  alert('💡 Para guardar el resultado:\n\n1. Haz clic derecho sobre la imagen/video\n2. Selecciona "Guardar imagen como..."\n\n🔊 La voz se reproduce automáticamente.');
-}
-</script>
-
-</body>
-</html>
+            estado.textContent = 'Tu turno ❌';
